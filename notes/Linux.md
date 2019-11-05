@@ -21,28 +21,28 @@
     - [6. 文件权限](#6-文件权限)
     - [7. chmod 修改权限](#7-chmod-修改权限)
     - [8. 文件与目录的基本操作](#8-文件与目录的基本操作)
-        - [ls](#1-ls)
-        - [cd](#2-cd)
-        - [mkdir](#3-mkdir)
-        - [rmdir](#4-rmdir)
-        - [touch](#5-touch)
-        - [cp](#6-cp)
-        - [rm](#7-rm)
-        - [mv](#8-mv)
+        - [1. ls](#1-ls)
+        - [2. cd](#2-cd)
+        - [3. mkdir](#3-mkdir)
+        - [4. rmdir](#4-rmdir)
+        - [5. touch](#5-touch)
+        - [6. cp](#6-cp)
+        - [7. rm](#7-rm)
+        - [8. mv](#8-mv)
     - [9. 获取文件内容](#9-获取文件内容)
-        - [cat](#1-cat)
-        - [tac](#2-tac)
-        - [more](#3-more)
-        - [less](#4-less)
-        - [head](#5-head)
-        - [tail](#6-tail)
-        - [od](#7-od)
+        - [1. cat](#1-cat)
+        - [2. tac](#2-tac)
+        - [3. more](#3-more)
+        - [4. less](#4-less)
+        - [5. head](#5-head)
+        - [6. tail](#6-tail)
+        - [7. od](#7-od)
         - [问：Linux查看日志文件的方式](#问linux查看日志文件的方式)
     - [10. 指令与文件搜索](#10-指令与文件搜索)
-        - [which](#1-which)
-        - [whereis](#2-whereis)
-        - [locate](#3-locate)
-        - [find](#4-find)
+        - [1. which](#1-which)
+        - [2. whereis](#2-whereis)
+        - [3. locate](#3-locate)
+        - [4. find](#4-find)
         - [*. grep的使用，一定要掌握，每次都会问在文件中查找（包含匹配）](#-grep的使用一定要掌握每次都会问在文件中查找包含匹配)
         - [*. 管道](#-管道)
     - [11. 压缩与解压缩命令](#11-压缩与解压缩命令)
@@ -66,10 +66,10 @@
         - [sed](#sed)
     - [14. 进程管理](#14-进程管理)
         - [查看进程](#查看进程)
-            - [ps](#1-ps)
-            - [top](#2-top)
-            - [pstree](#3-pstree)
-            - [netstat](#4-netstat)
+            - [1. ps](#1-ps)
+            - [2. top](#2-top)
+            - [3. pstree](#3-pstree)
+            - [4. netstat](#4-netstat)
         - [进程状态](#进程状态)
             - [SIGCHLD](#sigchld)
             - [wait()](#wait)
@@ -84,14 +84,22 @@
     - [18. 网络配置和网络诊断命令](#18-网络配置和网络诊断命令)
     - [19. 磁盘管理](#19-磁盘管理)
     - [20. VIM 三个模式](#20-vim-三个模式)
-    - [21. Screen命令](#21-screen命令)
+    - [21. 用户管理](#21-用户管理)
+        - [创建用户](#创建用户)
+        - [删除用户](#删除用户)
+        - [查看所有用户](#查看所有用户)
+        - [普通用户改为高级用户](#普通用户改为高级用户)
+        - [创建的用户 SSH 生效](#创建的用户-ssh-生效)
+    - [22. lspci](#22-lspci)
+    - [23. Screen命令](#23-screen命令)
         - [screen命令是什么](#screen命令是什么)
         - [安装](#安装)
         - [使用方法](#使用方法)
         - [远程演示](#远程演示)
         - [常用快捷键](#常用快捷键)
-    - [22. 常用快捷方式](#22-常用快捷方式)
-    - [23. 高并发网络编程之epoll详解](#23-高并发网络编程之epoll详解)
+    - [24. Linux 下如何查看系统版本](#24-linux-下如何查看系统版本)
+    - [25. 常用快捷方式](#25-常用快捷方式)
+    - [26. 高并发网络编程之epoll详解](#26-高并发网络编程之epoll详解)
 - [参考资料](#参考资料)
 - [更新日志](#更新日志)
 
@@ -117,9 +125,9 @@
 
 | 目录            | 说明                                                         |
 | --------------- | ------------------------------------------------------------ |
-| **/root**       | 根目录                                                       |
-| **/boot**       | 存放内核引导配置文件，启动 Linux 时使用的一些核心文件        |
-| **/bin**        | 存放用户二进制文件，这个目录存放着最经常使用的命令           |
+| **/root**       | 根目录，万物起源                                             |
+| **/boot**       | 包含 Linux 内核，最初的 RMA 磁盘映像（系统启动时，由驱动程序所需），和启动加载程序<br/>**有趣的文件**：<br />/boot/grub/grub.conf or menu.lst，被用来配置启动<br/>加载程序<br />/boot/vmlinuz， Linux 内核 |
+| **/bin**        | 包含系统启动和运行所必须的二进制程序                         |
 | **/sbin**       | s就是Super User的意思，这里存放的是系统管理员使用的系统管理程序 |
 | **/usr**        | 这是一个非常重要的目录，用户的很多应用程序和文件都放在这个目录下，类似于 windows 下的 program files 目录。usr (unix software resource) |
 | **/usr/bin**    | 系统用户使用的应用程序                                       |
@@ -127,14 +135,14 @@
 | /usr/src        | 内核源代码默认的放置目录                                     |
 | **/proc**       | 系统内存的映射目录，提供内核与进程信息                       |
 | **/lost+found** | 一般情况下是空的，当系统非法关机后，这里就存放了一些文件，文件系统恢复时的恢复文件 |
-| **/var**        | 这个目录中存放着在不断扩充着的东西，我们习惯将那些经常被修改的目录放在这个目录下。存放邮件、**系统日志**等变化文件，存放系统或程序运行过程中的数据文件(variable) |
+| **/var**        | 这个目录中存放着在不断扩充着的东西，我们习惯将那些经常被修改的目录放在这个目录下。存放邮件、系统日志等变化文件，存放系统或程序运行过程中的数据文件(variable) |
 | **/tmp**        | 这个目录是用来存放一些临时文件的                             |
-| **/etc**        | 存放系统配置文件                                             |
-| **/home**       | 用户主目录，在 Linux 中，每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的 |
-| **/dev**        | 存放设备文件                                                 |
+| **/etc**        | 存放系统配置文件。它也包含一系列的 shell 脚本，在系统启动时，这些脚本会运行每个系统服务。这个目录中的任何文件应该是可读的文本文件。<br /><br />`/etc/crontab`，定义自动运行的任务。<br />`/etc/fstab`，包含存储设备的列表，以及与他们相关的<br/>挂载点。<br />`/etc/passwd`，包含用户帐号列表。 |
+| **/home**       | 用户主目录，在通常的配置环境下，系统会在 /home 下，给每个用户分配一个目录。普通只能在他们自己的目录下创建文件。这个限制保护系统免受错误的用户活动破坏。 |
+| **/dev**        | 这是一个包含设备结点的特殊目录。“一切都是文件”，也使用于设备。在这个目录里，内核维护着它支持的设备 |
 | **/lib**        | 动态连接共享库，`.so` 文件，类似于 Windows 里的 dll 文件。   |
-| **/mnt**        | 系统提供该目录是为了让用户临时挂载别的文件系统的，我们可以将光驱挂载在/mnt/上，然后进入该目录就可以查看光驱里的内容了。 |
-| **/media**      | 系统会自动识别一些设备，例如U盘、光驱等等，把识别的设备挂载到这个目录下。 |
+| **/mnt**        | 系统提供该目录是为了让用户临时挂载别的文件系统的，我们可以将光驱挂载在 /mnt/ 上，然后进入该目录就可以查看光驱里的内容了。 |
+| **/media**      | 系统会自动识别一些设备，例如 U 盘、光驱等等，把识别的设备挂载到这个目录下。 |
 | /sys            | sys 虚拟文件系统挂载点                                       |
 | /srv            | 存放服务相关数据                                             |
 | /opt            | 这是给主机额外安装软件所摆放的目录。比如你安装一个 ORACLE 数据库则就可以放到这个目录下。默认是空的。 |
@@ -535,6 +543,18 @@ crontab 文件的每一行均遵守特定的格式，由空格或 tab 分隔为�
 ```shell
 3,15 8-11 */2 * * command
 ```
+
+
+
+
+
+### 应用场景：定时备份MySQL数据库
+
+
+
+
+
+
 
 
 
@@ -1666,6 +1686,118 @@ options 参数主要有 WNOHANG 和 WUNTRACED 两个选项，WNOHANG 可以使 w
 
 
 
+### kill
+
+kill命令用来删除执行中的程序或工作。kill可将指定的信息送至程序。预设的信息为SIGTERM(15),可将指定程序终止。若仍无法终止该程序，可使用SIGKILL(9)信息尝试强制删除程序。程序或工作的编号可利用[ps](http://man.linuxde.net/ps)指令或job指令查看。
+
+**语法** 
+
+```
+kill(选项)(参数)
+```
+
+**选项** 
+
+```
+-a：当处理当前进程时，不限制命令名和进程号的对应关系；
+-l <信息编号>：若不加<信息编号>选项，则-l参数会列出全部的信息名称；
+-p：指定kill 命令只打印相关进程的进程号，而不发送任何信号；
+-s <信息名称或编号>：指定要送出的信息；
+-u：指定用户。
+```
+
+**参数** 
+
+进程或作业识别号：指定要删除的进程或作业。
+
+**实例** 
+
+列出所有信号名称：
+
+```
+ kill -l
+ 1) SIGHUP       2) SIGINT       3) SIGQUIT      4) SIGILL
+ 5) SIGTRAP      6) SIGABRT      7) SIGBUS       8) SIGFPE
+ 9) SIGKILL     10) SIGUSR1     11) SIGSEGV     12) SIGUSR2
+13) SIGPIPE     14) SIGALRM     15) SIGTERM     16) SIGSTKFLT
+17) SIGCHLD     18) SIGCONT     19) SIGSTOP     20) SIGTSTP
+21) SIGTTIN     22) SIGTTOU     23) SIGURG      24) SIGXCPU
+25) SIGXFSZ     26) SIGVTALRM   27) SIGPROF     28) SIGWINCH
+29) SIGIO       30) SIGPWR      31) SIGSYS      34) SIGRTMIN
+35) SIGRTMIN+1  36) SIGRTMIN+2  37) SIGRTMIN+3  38) SIGRTMIN+4
+39) SIGRTMIN+5  40) SIGRTMIN+6  41) SIGRTMIN+7  42) SIGRTMIN+8
+43) SIGRTMIN+9  44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12
+47) SIGRTMIN+13 48) SIGRTMIN+14 49) SIGRTMIN+15 50) SIGRTMAX-14
+51) SIGRTMAX-13 52) SIGRTMAX-12 53) SIGRTMAX-11 54) SIGRTMAX-10
+55) SIGRTMAX-9  56) SIGRTMAX-8  57) SIGRTMAX-7  58) SIGRTMAX-6
+59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2
+63) SIGRTMAX-1  64) SIGRTMAX
+```
+
+只有第9种信号(SIGKILL)才可以无条件终止进程，其他信号进程都有权利忽略，**下面是常用的信号：**
+
+```
+HUP     1    终端断线
+INT     2    中断（同 Ctrl + C）
+QUIT    3    退出（同 Ctrl + \）
+TERM   15    终止
+KILL    9    强制终止
+CONT   18    继续（与STOP相反， fg/bg命令）
+STOP   19    暂停（同 Ctrl + Z）
+```
+
+先用ps查找进程，然后用kill杀掉：
+
+```
+ps -ef | grep vim
+root      3268  2884  0 16:21 pts/1    00:00:00 vim install.log
+root      3370  2822  0 16:21 pts/0    00:00:00 grep vim
+
+kill 3268
+kill 3268
+-bash: kill: (3268) - 没有那个进程
+```
+
+
+
+### killall
+
+killall命令使用进程的名称来杀死进程，使用此指令可以杀死一组同名进程。我们可以使用[kill](http://man.linuxde.net/kill)命令杀死指定进程PID的进程，如果要找到我们需要杀死的进程，我们还需要在之前使用[ps](http://man.linuxde.net/ps)等命令再配合[grep](http://man.linuxde.net/grep)来查找进程，而killall把这两个过程合二为一，是一个很好用的命令。
+
+**语法** 
+
+```
+killall(选项)(参数)
+```
+
+选项 
+
+```
+-e：对长名称进行精确匹配；
+-l：忽略大小写的不同；
+-p：杀死进程所属的进程组；
+-i：交互式杀死进程，杀死进程前需要进行确认；
+-l：打印所有已知信号列表；
+-q：如果没有进程被杀死。则不输出任何信息；
+-r：使用正规表达式匹配要杀死的进程名称；
+-s：用指定的进程号代替默认信号“SIGTERM”；
+-u：杀死指定用户的进程。
+```
+
+**参数** 
+
+进程名称：指定要杀死的进程名称。
+
+**实例** 
+
+杀死所有同名进程
+
+```
+killall vi
+```
+
+
+
 ## 17. 包管理工具
 
 RPM 和 DPKG 为最常见的两类软件包管理工具。RPM 全称为 Redhat Package Manager，最早由 Red Hat 公司制定实施，随后被 GNU 开源操作系统接受并成为很多 Linux 系统 (RHEL) 的既定软件标准。与 RPM 进行竞争的是基于 Debian 操作系统 (UBUNTU) 的 DEB 软件包管理工具 DPKG，全称为 Debian Package，功能方面与 RPM 相似。
@@ -1926,9 +2058,57 @@ There are screens on:
 
 
 
+## 24. Linux 下如何查看系统版本
+
+Linu x下如何查看版本信息， 包括位数、版本信息以及 CPU 内核信息、CPU 具体型号等等，整个 CPU 信息一目了然。
+
+ 
+
+1. 查看版本当前操作系统内核信息
+
+```shell
+$ uname －a 
+
+Linux vm10-0-0-21.ksc.com 3.10.0-693.21.1.el7.x86_64 #1 SMP Wed Mar 7 19:03:37 UTC 2018 x86_64 x86_64 x86_64 GNU/Linux
+```
+
+2. 查看当前操作系统版本信息
+
+```shell
+$ cat /proc/version
+
+Linux version 3.10.0-693.21.1.el7.x86_64 (builder@kbuilder.dev.centos.org) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-16) (GCC) ) #1 SMP Wed Mar 7 19:03:37 UTC 2018
+```
+
+3. 查看版本当前操作系统发行版信息
+
+```shell
+$ cat /etc/issue  或cat /etc/redhat-release
+
+Red Hat Linux release 9 (Shrike)
+```
+
+4. 查看 CPU 相关信息，包括型号、主频、内核信息等
+
+```shell
+$ cat /proc/cpuinfo
+```
+
+5. 查看版本说明当前 CPU 运行在32bit模式下， 但不代表 CPU 不支持64bit
+
+```shell
+$ getconf LONG_BIT 
+```
+
+6. 系统详细信息
+
+```shell
+$ lsb_release -a
+```
 
 
-## 24. 常用快捷方式
+
+## 25. 常用快捷方式
 
 - ctrl + c：强制终止当前命令
 
@@ -1946,9 +2126,61 @@ There are screens on:
 
 
 
-## 25. 高并发网络编程之epoll详解
+## 26. 高并发网络编程之epoll详解
 
 详情请转向：[高并发网络编程之epoll详解 - CSDN博客](https://blog.csdn.net/shenya1314/article/details/73691088)
+
+
+
+
+
+## 27. Linux下限制IP访问
+
+Linux下限制IP访问 - sinat_24928447的博客 - CSDN博客
+https://blog.csdn.net/sinat_24928447/article/details/78042290
+
+
+
+
+
+## 28. ssh命令连接服务器
+
+【随笔】ssh登录时如何直接在参数中加入登录密码 - linxiong - 博客园
+https://www.cnblogs.com/linxiong945/p/4226211.html
+
+
+
+sshpass的安装使用 - 蓝凌的博客 - CSDN博客
+https://blog.csdn.net/qq_30553235/article/details/78711491
+
+
+
+
+
+## 29. 防火墙
+
+Centos中iptables和firewall防火墙开启、关闭、查看状态、基本设置等 - 菲宇运维 - CSDN博客
+https://blog.csdn.net/bbwangj/article/details/74502967
+
+
+
+linux如何查看端口被哪个进程占用？ - 晓容晓枫 - 博客园
+https://www.cnblogs.com/CEO-H/p/7794306.html
+
+
+
+
+
+1、lsof -i:端口号
+
+2、netstat -tunlp|grep 端口号
+
+都可以查看指定端口被哪个进程占用的情况
+
+
+
+
+
 
 
 # 参考资料
@@ -1956,6 +2188,8 @@ There are screens on:
 - [【Linux】初踏足Linux的大门 - CSDN博客](https://blog.csdn.net/qq_41035588/article/details/80947383)
 
 - [如何学习（记住）linux命令（常用选项）？ - 知乎](https://www.zhihu.com/question/21690166/answer/66721478)
+
+
 
 # 更新日志
 

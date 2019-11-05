@@ -35,6 +35,9 @@
 
 本文部分内容引用来自：【千锋-李卫民老师博客，推荐大家学习】http://www.funtl.com/
 
+A simple, interactive and fun playground to learn Docker：[Play with Docker](https://labs.play-with-docker.com/)
+
+
 ## 初探 Docker
 
 ### 什么是 Docker
@@ -172,6 +175,11 @@ vim /var/log/docker
 
 
 
+在 Ubuntu 16.04 LTS 上 离线安装 Docker / Docker-compose - TonyZhang24 - 博客园
+https://www.cnblogs.com/atuotuo/p/9272368.html
+
+
+
 ## Docker 镜像加速器
 
 1. 加速器服务
@@ -221,6 +229,8 @@ Redirecting to /bin/systemctl start docker.service
 - -v：是挂在宿机目录， /centos_dir 是宿机目录，/docker_dir 是当前 Docker 容器的目录，宿机目录必须是绝对的。
 - -p：端口映射
 - --name：是给容器起一个名字，可省略，省略的话 docker 会随机产生一个名字
+
+- --restart：always
 
 ### 3. 启动的容器列表
 
@@ -375,6 +385,8 @@ Docker-Compose 是一个部署多个容器的简单但是非常必要的工具.
 
 
 
+
+
 # 四、Docker 实战
 
 ## 实战1：快速搭建 MySQL
@@ -439,6 +451,8 @@ services:
 
 
 
+
+
 ## 实战3：快速搭建 GitLab
 
 GitLab 使用163邮箱发送邮件 - 刘锐群的笔记 - CSDN博客
@@ -460,11 +474,11 @@ services:
     web:
       image: 'twang2218/gitlab-ce-zh:10.5'
       restart: always
-      hostname: '120.92.17.12'
+      hostname: '120.131.11.187'
       environment:
         TZ: 'Asia/Shanghai'
         GITLAB_OMNIBUS_CONFIG: |
-          external_url 'http://120.92.17.12:3000'
+          external_url 'http://120.131.11.187:3000'
           gitlab_rails['gitlab_shell_ssh_port'] = 2222
           unicorn['port'] = 8888
           nginx['listen_port'] = 3000
@@ -477,6 +491,14 @@ services:
         - /usr/local/docker/gitlab/data:/var/opt/gitlab
         - /usr/local/docker/gitlab/logs:/var/log/gitlab
 ```
+
+
+
+
+
+
+
+
 
 
 
